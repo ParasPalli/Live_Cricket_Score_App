@@ -10,5 +10,5 @@ class ApiConstants {
   static String cricScores =
       "https://api.cricapi.com/v1/cricScore?apikey=$api2&offset=0";
 
-  static bool matchType = false;
+  static bool matchType = true;
 }

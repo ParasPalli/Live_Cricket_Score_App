@@ -11,9 +11,14 @@ void main() {
   runApp(const MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({super.key});
 
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -34,7 +39,11 @@ class MyApp extends StatelessWidget {
                 child: Row(
                   children: [
                     TextButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        setState(() {
+                          ApiConstants.matchType = true;
+                        });
+                      },
                       child: Text('Current Matches'),
                       style: TextButton.styleFrom(
                         side: matchesButtonStyle,
@@ -44,7 +53,11 @@ class MyApp extends StatelessWidget {
                       width: 10,
                     ),
                     TextButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        setState(() {
+                          ApiConstants.matchType = false;
+                        });
+                      },
                       child: Text('CricScores'),
                       style: TextButton.styleFrom(
                         side: matchesButtonStyle,
@@ -60,22 +73,21 @@ class MyApp extends StatelessWidget {
                       : fetchCricScore(),
                   builder: (BuildContext context, AsyncSnapshot snapshot) {
                     if (!snapshot.hasData) {
-                      return const Center(
-                        child: CircularProgressIndicator(
-                          color: Colors.lightBlueAccent,
-                        ),
-                      );
+                      return progressCircle;
                     } else if (snapshot.hasError) {
                       return Text('${snapshot.error}');
                     }
-
-                    return ApiConstants.matchType
-                        ? currentMatchesPanel(
-                            snapshot: snapshot.data,
-                          )
-                        : cricScoresPanel(
-                            snapshot: snapshot.data,
-                          );
+                    try {
+                      return ApiConstants.matchType
+                          ? currentMatchesPanel(
+                              snapshot: snapshot.data,
+                            )
+                          : cricScoresPanel(
+                              snapshot: snapshot.data,
+                            );
+                    } catch (e) {
+                      return progressCircle;
+                    }
                   },
                 ),
               ),
