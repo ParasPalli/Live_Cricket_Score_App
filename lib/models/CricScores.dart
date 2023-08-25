@@ -42,8 +42,6 @@ class CricScores {
   });
 
   factory CricScores.fromJson(Map<String, dynamic> json) {
-    print(json['t1img']);
-
     return CricScores(
       id: json['id'] as String,
       matchType: json['matchType'] as String,
