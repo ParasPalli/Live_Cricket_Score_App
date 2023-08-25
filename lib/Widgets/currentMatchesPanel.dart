@@ -86,16 +86,17 @@ class matchesPanel extends StatelessWidget {
                       singleTeam(
                         teamName: snapshot.teams[0],
                         img: snapshot.teamInfo.toList()[0]['img'].toString(),
-                        score:
-                            "${snapshot.score[0]['r'].toString()}(${snapshot.score[0]['w'].toString()})",
+                        score: snapshot.score.isNotEmpty
+                            ? "${snapshot.score[0]['r'].toString()} (${snapshot.score[0]['w'].toString()})"
+                            : "No Score",
                       ),
                       const Text("Vs"),
                       singleTeam(
                         teamName: snapshot.teams[1],
                         img: snapshot.teamInfo[1]['img'].toString(),
-                        score: snapshot.score.isNotEmpty
-                            ? "${snapshot.score[0]['r'].toString()}(${snapshot.score[0]['w'].toString()})"
-                            : "No Score Given",
+                        score: snapshot.score.length > 1
+                            ? "${snapshot.score[1]['r'].toString()} (${snapshot.score[1]['w'].toString()})"
+                            : "No Score",
                       ),
                     ],
                   ),
